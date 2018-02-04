@@ -1,0 +1,303 @@
+<html>
+<head>
+<title>JavaScript</title>
+<script>
+	var inicio = '24';
+	var direction = 'D';
+	var corpo = [];
+	var tamanhoAtualCorpo = 1;
+	var gameOver = '';
+	var comida = '00';
+	
+    function loadCobra() {
+        var body = document.getElementsByTagName('body')[0];
+
+        var tbl     = document.createElement('table');
+        var tblBody = document.createElement('tbody');
+
+        for (var j = 0; j < 10; j++) {
+            var row = document.createElement('tr');
+
+            for (var i = 0; i < 10; i++) {
+                var cell = document.createElement('td');
+				cell.style.width = "20px";
+				cell.style.height = "20px";
+                var cellText = document.createTextNode(j + ' ' + i);
+                cell.appendChild(cellText);
+                row.appendChild(cell);
+				
+				if ((j.toString()+i.toString()) == inicio)
+				{
+					//cell.style.backgroundColor = "red";
+				}
+            }
+
+            tblBody.appendChild(row);
+        }
+
+        tbl.appendChild(tblBody);
+        body.appendChild(tbl);
+        tbl.setAttribute("border", "1");
+		
+		criaComida();
+    }
+	
+	function criaComida() {
+		comida = getRandomPosition(5,95).toString();
+		comida = comida.replace('0', '1');
+
+		if (comida.length == 1)
+			comida = '1' + comida.toString();
+			
+		var posInicio1 = +comida[0],
+			posInicio2 = +comida[1];
+			
+		var cell = document.querySelector('table tbody tr:nth-child(' + posInicio1 + ') td:nth-child(' + posInicio2 + ')');
+		
+		if (cell)
+		{
+			cell.style.backgroundColor = "green";
+		}
+		
+		comida = (+comida[0] - 1).toString() + (+comida[1] - 1).toString();
+		
+		var existe = corpo.indexOf(comida);
+		
+		if (existe >= 0)
+		{
+			cell.style.backgroundColor = "white";
+			criaComida();
+		}
+	}
+	
+	function criaCorpo(array) {
+		if (array.length > tamanhoAtualCorpo)
+		{
+			var parteCorpo = (corpo.splice(0,1)).toString();
+			var posInicio1 = +parteCorpo[0],
+				posInicio2 = +parteCorpo[1];
+
+			var cell = document.querySelector('table tbody tr:nth-child(' + (posInicio1 + 1) + ') td:nth-child(' + (posInicio2 + 1) + ')');
+			
+			if (cell)
+			{
+				cell.style.backgroundColor = "white";
+			}				
+		}
+		
+		for (i = 0; i < array.length; i++) { 
+			var parteCorpo = array[i];
+			var posInicio1 = +parteCorpo[0],
+				posInicio2 = +parteCorpo[1];
+			
+			// DIREITA INICIO
+			if (posInicio2 <= 9 && direction == 'D' && gameOver != 'gameOver')
+			{
+				inicio = posInicio1.toString() + posInicio2.toString();
+				
+				var cell = document.querySelector('table tbody tr:nth-child(' + (posInicio1 + 1) + ') td:nth-child(' + (posInicio2 + 1) + ')');
+				
+				if (cell)
+				{
+					cell.style.backgroundColor = "red";
+				}
+			}
+			
+			if (gameOver == 'gameOver')
+			{				
+				var cell = document.querySelector('table tbody tr:nth-child(' + (posInicio1 + 1) + ') td:nth-child(' + (posInicio2 + 1) + ')');
+				
+				if (cell)
+				{
+					cell.style.backgroundColor = "white";
+				}
+			}
+			// FINAL DIREITA
+			
+			
+			
+			// ESQUERDA INICIO
+			if (posInicio2 <= 9 && direction == 'E' && gameOver != 'gameOver')
+			{
+				inicio = posInicio1.toString() + posInicio2.toString();
+				
+				var cell = document.querySelector('table tbody tr:nth-child(' + (posInicio1 + 1) + ') td:nth-child(' + (posInicio2 + 1) + ')');
+
+				if (cell)
+				{
+					cell.style.backgroundColor = "red";
+				}
+			}
+			
+			if (gameOver == 'gameOver')
+			{				
+				var cell = document.querySelector('table tbody tr:nth-child(' + (posInicio1 + 1) + ') td:nth-child(' + (posInicio2 + 1) + ')');
+				
+				if (cell)
+				{
+					cell.style.backgroundColor = "white";
+				}
+			}
+			// FINAL ESQUERDA
+			
+			
+			
+			// CIMA INICIO
+			if (posInicio2 <= 9 && direction == 'C' && gameOver != 'gameOver')
+			{
+				inicio = posInicio1.toString() + posInicio2.toString();
+								
+				var cell = document.querySelector('table tbody tr:nth-child(' + (posInicio1 + 1) + ') td:nth-child(' + (posInicio2 + 1) + ')');
+
+				if (cell)
+				{
+					cell.style.backgroundColor = "red";
+				}
+			}
+			
+			if (gameOver == 'gameOver')
+			{			
+				var cell = document.querySelector('table tbody tr:nth-child(' + (posInicio1 + 1) + ') td:nth-child(' + (posInicio2 + 1) + ')');
+				
+				if (cell)
+				{
+					cell.style.backgroundColor = "white";
+				}
+			}
+			// FINAL CIMA
+			
+			
+			
+			// BAIXO INICIO
+			if (posInicio2 <= 9 && direction == 'B' && gameOver != 'gameOver')
+			{
+				inicio = posInicio1.toString() + posInicio2.toString();
+								
+				var cell = document.querySelector('table tbody tr:nth-child(' + (posInicio1 + 1) + ') td:nth-child(' + (posInicio2 + 1) + ')');
+
+				if (cell)
+				{
+					cell.style.backgroundColor = "red";
+				}
+			}
+			
+			if (gameOver == 'gameOver')
+			{			
+				var cell = document.querySelector('table tbody tr:nth-child(' + (posInicio1 + 1) + ') td:nth-child(' + (posInicio2 + 1) + ')');
+				
+				if (cell)
+				{
+					cell.style.backgroundColor = "white";
+				}
+			}
+			// FINAL BAIXO	
+		}
+	}
+	
+	function getRandomPosition(min, max) {
+		return Math.floor(Math.random() * max) + min;
+	}
+
+	var recursiva = function () {
+		if (inicio == comida)
+		{
+			tamanhoAtualCorpo++;
+			criaComida();
+		}
+		
+		var posInicio1 = +inicio[0],
+			posInicio2 = +inicio[1];
+			
+		if (gameOver)
+		{
+			alert('Se Fodeu!');
+			location.reload();
+		}
+
+		// DIREITA
+		if (posInicio2 <= 9 && direction == 'D' && gameOver != 'gameOver')
+		{
+			criaCorpo(corpo);
+			posInicio2++;
+			inicio = posInicio1.toString() + posInicio2.toString();
+			corpo.push(inicio);
+		}
+		
+		if (posInicio2 > 9 && direction == 'D') gameOver = 'gameOver';
+		// FINAL DIREITA
+		
+		// ESQUERDA
+		if (posInicio2 <= 9 && direction == 'E' && gameOver != 'gameOver')
+		{
+			criaCorpo(corpo);
+			posInicio2--;
+			inicio = posInicio1.toString() + posInicio2.toString();
+			corpo.push(inicio);
+		}
+		
+		if (posInicio2 < 0 && direction == 'E') gameOver = 'gameOver';
+		// FINAL ESQUERDA
+		
+		// CIMA
+		if (posInicio2 <= 9 && direction == 'C' && gameOver != 'gameOver')
+		{
+			criaCorpo(corpo);
+			posInicio1--;
+			inicio = posInicio1.toString() + posInicio2.toString();
+			corpo.push(inicio);
+		}
+		
+		if (posInicio1 < 0 && direction == 'C') gameOver = 'gameOver';
+		// FINAL CIMA
+		
+		// BAIXO
+		if (posInicio2 <= 9 && direction == 'B' && gameOver != 'gameOver')
+		{
+			criaCorpo(corpo);
+			posInicio1++;
+			inicio = posInicio1.toString() + posInicio2.toString();
+			corpo.push(inicio);
+		}
+
+		if (posInicio1 > 9 && direction == 'B') gameOver = 'gameOver';
+		// FINAL BAIXO
+				
+		// BATEU NO ARRAY/CORPO = VAMOR DUPLICADO!
+		if (achaDuplicadaArray(corpo))
+			gameOver = 'gameOver';
+			
+		setTimeout(recursiva, 300);
+	}
+	recursiva();
+	
+	function achaDuplicadaArray(array)
+	{
+		return (new Set(array)).size !== array.length;
+	}
+	
+	document.addEventListener("keydown", function(event) {
+		if (event.keyCode == '39') // DIREITA	: 39
+		{
+			direction = 'D';
+		}
+		
+		if (event.keyCode == '37') // ESQUERDA	: 37
+		{
+			direction = 'E';
+		}
+		
+		if (event.keyCode == '38') // CIMA		: 38
+		{
+			direction = 'C';
+		}
+		
+		if (event.keyCode == '40') // BAIXO		: 40
+		{
+			direction = 'B';
+		}
+	});
+</script>
+</head>
+<body onload="loadCobra()">
+</body>
+</html>
